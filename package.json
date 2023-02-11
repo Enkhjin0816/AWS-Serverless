@@ -4,7 +4,9 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "yarn zip && aws lambda update-function-code --function-name serverlesstest-dev-userCreate --zip-file fileb://test.zip",
+    "zip": "zip -r test.zip ./"
   },
   "keywords": [],
   "author": "",

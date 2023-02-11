@@ -7,19 +7,17 @@ provider:
   runtime: nodejs18.x
   region: ap-southeast-1
   
- iam:
-   role:
-     statements:
-       - Effect: "Allow"
-         Action:
-          - "dynamodb:GetItem",
-          - "dynamodb:PutItem",
-          - "dynamodb:UpdateItem",
-          - "dynamodb:DeleteItem"
-#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#        - Effect: "Allow"
-#          Action:
-#            - "s3:PutObject"
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:PutItem'
+            - 'dynamodb:Get*'
+            - 'dynamodb:Scan*'
+            - 'dynamodb:UpdateItem'
+            - 'dynamodb:DeleteItem'
+          Resource: arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${self:service}-customerTable-${sls:stage}
 #          Resource:
 #            Fn::Join:
 #              - ""
@@ -99,3 +97,18 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+resources: # CloudFormation template syntax from here on.
+      Resources:
+        usersTable:
+          Type: AWS::DynamoDB::Table
+          Properties:
+            TableName: usersTable
+            AttributeDefinitions:
+              - AttributeName: email
+                AttributeType: S
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 10
+              WriteCapacityUnits: 10
