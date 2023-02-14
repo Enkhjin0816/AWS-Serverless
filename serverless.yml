@@ -12,11 +12,8 @@ provider:
       statements:
         - Effect: 'Allow'
           Action:
-            - 'dynamodb:PutItem'
-            - 'dynamodb:Get*'
-            - 'dynamodb:Scan*'
-            - 'dynamodb:UpdateItem'
-            - 'dynamodb:DeleteItem'
+            - dynamodb:*
+            - sqs:*
           Resource: arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${self:service}-customerTable-${sls:stage}
 #          Resource:
 #            Fn::Join:
@@ -102,7 +99,7 @@ resources: # CloudFormation template syntax from here on.
         usersTable:
           Type: AWS::DynamoDB::Table
           Properties:
-            TableName: usersTable
+            TableName: test
             AttributeDefinitions:
               - AttributeName: email
                 AttributeType: S
@@ -110,5 +107,5 @@ resources: # CloudFormation template syntax from here on.
               - AttributeName: email
                 KeyType: HASH
             ProvisionedThroughput:
-              ReadCapacityUnits: 10
-              WriteCapacityUnits: 10
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1

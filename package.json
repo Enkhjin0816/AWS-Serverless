@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.261.0",
+    "@aws-sdk/client-sqs": "^3.267.0",
     "@aws-sdk/util-dynamodb": "^3.259.0",
     "serverless-plugin-typescript": "^2.1.4"
   }
